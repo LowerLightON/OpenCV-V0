@@ -18,10 +18,19 @@ class Step(Generic[T], ABC):
 
 class NormalizeSpaceStep(Step[T]):
     def process(self, frame: T) -> T:
-        if frame.data is str:
+        if isinstance(frame.data, str):
             return frame.data.strip()
         return frame.data
 class TagStep(Step[T]):
-    def process(self, frame: T, tag: str) -> T:
+    def __init__(self, tag: str) -> None:
+        self.tag = tag
+    def process(self, frame: T) -> T:
         if frame.meta is None:
-            frame.meta = frame.meta.append(tag)
+            frame.meta["tags"] = []
+        frame.meta.append(self.tag)
+        return frame
+class LenMetaStep(Step[T]):
+    def process(self, frame: T) -> T:
+        if frame.meta is not None:
+            return len(frame.meta)
+        return frame
