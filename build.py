@@ -1,10 +1,10 @@
 from pipeline import Pipeline
-from steps import NormalizeSpaceStep, TagStep, LenMetaStep\
+from steps import NormalizeSpaceStep, TagStep, LenMetaStep
 
 def bild_pipline() -> Pipeline:
     return Pipeline([
-        TagStep(),
+        TagStep("raw"),
         NormalizeSpaceStep(),
         LenMetaStep(),
-        TagStep(),
+        TagStep("preprocess"),
     ])

@@ -8,3 +8,5 @@ class Pipeline(Generic[T]):
         self.steps = steps
     def run(self, frame: T) -> T:
         for step in self.steps:
+            frame = step(frame)
+        return frame
